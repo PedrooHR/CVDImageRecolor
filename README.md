@@ -8,6 +8,19 @@ This repository contains the implementation of my graduation final project which
   * [cpu](/src/cpu/): Contains the CPU version implementation. It uses OpenMP in some parts of the code to improve speed
   * [gpu](/src/gpu/): Contains the GPU version implementation. It substitutes the Taxons calculation with a GPU kernel to improve speed
 
+## **Running**
+It is provide a simple script that compiles the source code and enables execution
+To compile, simple call the script and pass `gpu` or `cpu` as argument (be aware that nvcc is required to build for gpu). To run, call the executable generated passing the image path as argument.
+```bash
+./compile.sh <gpu|cpu>
+./main_<gpu|cpu> <img_path>
+```
+For example, running in CPU:
+```bash
+./compile.sh cpu
+./main_cpu imgs/testeimg1.jpg
+```
+
 ## **About the algorithm**
 This was my graduation final project. We leverage the use of the [Elastic Map](http://bioinfo-out.curie.fr/projects/elmap/) dimensionality reduction technique to develop a novel image recoloring algorithm.
 
