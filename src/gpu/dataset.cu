@@ -12,8 +12,8 @@ dataset::dataset(const char *imgPath) {
   width = image.width();
   height = image.height();
   int size = width * height;
-
-  Datapoints = (float *)malloc(size * 3 * sizeof(float));
+  
+  cudaMallocManaged(&Datapoints, size * 3 * sizeof(float));
 
   for (int i = 0; i < size; i++) {
     int x = i % width;

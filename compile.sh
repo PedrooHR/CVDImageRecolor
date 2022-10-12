@@ -1,8 +1,14 @@
 #!/bin/bash
 
-g++ -c -fopenmp -pg src/cpu/solver.cpp
-g++ -c -fopenmp -pg src/cpu/dataset.cpp 
-g++ -c -fopenmp -pg src/cpu/utils.cpp
-g++ -c -fopenmp -pg src/cpu/grid.cpp
-g++ -c -fopenmp -pg src/cpu/main.cpp
-g++ *.o -fopenmp -pg -o main -lX11 -lpthread -ljpeg 
+if [ "$1" == "gpu" ]; then
+  nvcc -c src/$1/*.cu
+  g++ *.o -L/usr/local/cuda/lib64 -o main_$1 -lcuda -lcudart -lX11 -lpthread -ljpeg 
+elif [ "$1" == "cpu" ]; then
+  g++ -c -fopenmp -pg src/$1/*.cpp
+  g++ *.o -fopenmp -pg -o main_$1 -lX11 -lpthread -ljpeg 
+fi
+
+rm -rf *.o
+rm -rf *.out
+rm -rf *.txt
+rm -rf *.jpg

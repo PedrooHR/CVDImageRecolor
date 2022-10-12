@@ -6,7 +6,8 @@
 #include <vector>
 
 // Execution definitions
-#define USEOPENMP 1 
+#define USEOPENMP 1 // Only works if using CPU
+#define USEGPU 1
 
 // Mathematical definitions
 #define euler 2.71828182846
