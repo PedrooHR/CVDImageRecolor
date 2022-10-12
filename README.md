@@ -46,3 +46,9 @@ Figure 2 shows a result from this algorithm. Few points to make here. First, not
 
 <br><br>
 If you want to know more about this work, feel free to check the [graduation final project document](https://repositorio.ufsc.br/bitstream/handle/123456789/192338/TCCFinal.pdf?sequence=1) (Unfortunately, it is only available in Portuguese), or feel free to contact me about it (p233687@dac.unicamp.br). 
+
+
+## **Other Versions**
+I have a FPGA version of this algorithm implemented in the repository [CVDImgRecolor_FPGA](https://github.com/PedrooHR/CVDImgRecolor_FPGA) that was developed in the 2022 XACC School.
+
+Finally, I'm working on implementing this for distributed computing using [OMPC](https://ompcluster.readthedocs.io/en/latest/)
