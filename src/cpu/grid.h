@@ -7,43 +7,52 @@
 
 #ifndef GRID_H_
 #define GRID_H_
-#include <vector>
 #include "utils.h"
+#include <vector>
 
-#define PROTANOPE 	1
+#define PROTANOPE 1
 #define DEUTERANOPE 0
-#define TRITANOPE   0
+#define TRITANOPE 0
 
-typedef struct Node{
-	int id;
-	float Weight;
-	float* CVDposition;
-	float* Position;
-	float a;
-	float b;
+// Macros for accessing XY like positions
+#define pX(idx) idx * 2 + 0
+#define pY(idx) idx * 2 + 1
+
+typedef struct Node {
+  int id;
+  float Weight;
+  float *CVDposition;
+  float *Position;
+  float a;
+  float b;
 } Node;
 
 class grid {
 public:
-	// LIMITES DOS PLANOS
-	std::vector <float> A;
-	std::vector <float> C;
+  // CVD plane limits
+  std::vector<float> A;
+  std::vector<float> C;
 
-	int GRAPH_SIZE;
-	int numRibs;
-	int numEdges;
+	// Size information
+  int graph_size;
+  int numRibs;
+  int numEdges;
 
-	float miAB;
-	float miBC;
+	// Angles of CVD planes
+  float miAB;
+  float miBC;
 
-	std::vector <std::vector <int> > Edges;
-	std::vector <std::vector <int> > Ribs;
-	Node *Graph;
-	XYPos *Location;
+  // Components of the Elastic Map
+  int *Edges;
+  int *Ribs;
 
+  // Position on CVD Plane
+  float *CVDPosition;
 
-	grid(int type, int graph_size);
+	// This only holds temporary final solution of EM points
+  float *Location;
+
+  grid(int type, int size);
 };
-
 
 #endif /* GRID_H_ */

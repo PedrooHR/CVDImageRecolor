@@ -1,8 +1,8 @@
 #!/bin/bash
 
-g++ -c -pg src/solver.cpp
-g++ -c -pg src/dataset.cpp 
-g++ -c -pg src/utils.cpp
-g++ -c -pg src/grid.cpp
-g++ -c -pg src/main.cpp
-g++ *.o -pg -o main -lX11 -lpthread -ljpeg 
+g++ -c -fopenmp -pg src/cpu/solver.cpp
+g++ -c -fopenmp -pg src/cpu/dataset.cpp 
+g++ -c -fopenmp -pg src/cpu/utils.cpp
+g++ -c -fopenmp -pg src/cpu/grid.cpp
+g++ -c -fopenmp -pg src/cpu/main.cpp
+g++ *.o -fopenmp -pg -o main -lX11 -lpthread -ljpeg 

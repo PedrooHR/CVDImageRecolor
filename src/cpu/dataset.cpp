@@ -7,32 +7,26 @@
 
 #include "dataset.h"
 
-dataset::dataset(const char*imgPath){
-	int local_id = 0;
-	cimg_library::CImg<unsigned int> image(imgPath);
-	width = image.width();
-	height = image.height();
-	int size = width * height;
+dataset::dataset(const char *imgPath) {
+  int local_id = 0;
+  cimg_library::CImg<unsigned int> image(imgPath);
+  width = image.width();
+  height = image.height();
+  int size = width * height + 1;
 
-	Datapoints = (Pixel *) malloc (size * sizeof(Pixel));
-	Location = (XYPos *) malloc (size * sizeof(XYPos));
-	
-	cimg_forXY(image,x,y) {
-		Datapoints[local_id].id = local_id;
-		Datapoints[local_id].closest_node = -1;
-		//create RGB
-		Datapoints[local_id].RGB = (float*) malloc(3* sizeof(float));
-		Datapoints[local_id].R = Datapoints[local_id].RGB[0] = image(x,y,0)/255.0f;
-		Datapoints[local_id].G = Datapoints[local_id].RGB[1] = image(x,y,1)/255.0f;
-		Datapoints[local_id].B = Datapoints[local_id].RGB[2] = image(x,y,2)/255.0f;
-		//create Lab
-		std::vector <float> lab_color = getLabColor(image(x,y,0), image(x,y,1), image(x,y,2));
-		Datapoints[local_id].Lab = (float*) malloc(3* sizeof(float));
-		Datapoints[local_id].L = Datapoints[local_id].Lab[0] = lab_color[0];
-		Location[local_id].x = Datapoints[local_id].a = Datapoints[local_id].Lab[1] = lab_color[1];
-		Location[local_id].y = Datapoints[local_id].b = Datapoints[local_id].Lab[2] = lab_color[2];
+  Datapoints = (float *)malloc(size * 3 * sizeof(float));
 
-		local_id++;
-	};
-	Datasize = size;
+  cimg_forXY(image, x, y) {
+    // create Lab
+    float *lab_color =
+        getLabColor(image(x, y, 0), image(x, y, 1), image(x, y, 2));
+
+    // Fill data points [0: L; 1: a; 2: b]
+    Datapoints[L(local_id)] = lab_color[0];
+    Datapoints[a(local_id)] = lab_color[1];
+    Datapoints[b(local_id)] = lab_color[2];
+
+    local_id++;
+  };
+  Datasize = size;
 }

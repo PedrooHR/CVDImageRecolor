@@ -11,35 +11,26 @@
 #define cimg_display 0
 #define cimg_use_jpeg
 
-#include <vector>
-#include <CImg.h>
+#include "CImg.h"
 #include "utils.h"
+#include <vector>
 
-typedef struct Pixel {
-	float* RGB;
-	float* Lab;
-	float R;
-	float G;
-	float B;
-	float L;
-	float a;
-	float b;
-	float PL;
-	float Pa;
-	float Pb;
-	int id;
-	int closest_node;
-} Pixel;
+// Macros for accessing Lab values
+#define L(idx) idx * 3 + 0
+#define a(idx) idx * 3 + 1
+#define b(idx) idx * 3 + 2
 
 class dataset {
 public:
-	int width;
-	int height;
+  int width;
+  int height;
+  int Datasize;
 
-	Pixel *Datapoints;
-	XYPos *Location;
-	int Datasize;
-	dataset(const char*imgPath);
+  // This represents a N by 3 array. Each N-th element is [L, a, b]. Each
+  // element is a Pixel in Lab
+  float *Datapoints;
+
+  dataset(const char *imgPath);
 };
 
 #endif /* DATASET_H_ */

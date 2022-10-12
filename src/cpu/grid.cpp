@@ -9,50 +9,48 @@
 
 #include <iostream>
 
-grid::grid(int type, int graph_size) {
-	GRAPH_SIZE = graph_size;
-	numEdges = GRAPH_SIZE - 1;
-	numRibs  = GRAPH_SIZE - 2;
-	Graph = (Node *) malloc (GRAPH_SIZE * sizeof(Node));
-	Location = (XYPos *) malloc (GRAPH_SIZE * sizeof(XYPos));
-	
-	// do graphnodes
-	if (type == PROTANOPE){
-		//PROTANOPE LIMITS
-		A = {8.648425, -73.086372, 56.664734};
-		C = {-14.907598, 86.293831, 89.536812};
+grid::grid(int type, int size) {
+  graph_size = size;
+  numEdges = graph_size - 1;
+  numRibs = graph_size - 2;
 
-		miAB = A[1] / A[0];
-		miBC = C[1] / C[0];
+  // Each pixel has 2
+  CVDPosition = (float *)malloc(graph_size * 2 * sizeof(float));
+  Location = (float *)malloc(graph_size * 2 * sizeof(float));
 
-		float x_step  = fabs((A[0] - C[0]) / (GRAPH_SIZE * 1.0));
-		float x_start = C[0];
+  // do graphnodes
+  if (type == PROTANOPE) {
+    // PROTANOPE LIMITS
+    A = {8.648425, -73.086372, 56.664734};
+    C = {-14.907598, 86.293831, 89.536812};
+  }
 
-		for(int i = 0; i < GRAPH_SIZE; i++){
-			Graph[i].id = i;
-			Graph[i].Position = (float*) malloc (2*sizeof(float));
-			Location[i].x = Graph[i].Position[0] = (x_start <= 0) ? miBC * x_start : miAB * x_start;
-			Location[i].y = Graph[i].Position[1] = -x_start;
-			Graph[i].CVDposition = (float*) malloc (2*sizeof(float));
-			Graph[i].CVDposition[0] = x_start;
-			Graph[i].CVDposition[1] = (x_start <= 0) ? miBC * x_start : miAB * x_start;
-			Graph[i].Weight = 1.0f;
-			Graph[i].a = (x_start <= 0) ? miBC * x_start : miAB * x_start;
-			Graph[i].b = -x_start;
-			x_start += x_step;
-		}
-	}
+  miAB = A[1] / A[0];
+  miBC = C[1] / C[0];
 
-	// do edges
-	for (int i = 0; i < GRAPH_SIZE - 1; i++){
-		std::vector<int> t = {i, i + 1};
-		Edges.push_back(t);
-	}
+  float x_step = fabs((A[0] - C[0]) / (graph_size * 1.0));
+  float x_start = C[0];
 
-	// do ribs
-	for (int i = 0; i < GRAPH_SIZE - 2; i++){
-		std::vector<int> t = {i + 1, i, i + 2};
-		Ribs.push_back(t);
-	}
+  for (int i = 0; i < graph_size; i++) {
+    Location[pX(i)] = (x_start <= 0) ? miBC * x_start : miAB * x_start;
+    Location[pY(i)] = -x_start;
+    CVDPosition[pX(i)] = x_start;
+    CVDPosition[pY(i)] = (x_start <= 0) ? miBC * x_start : miAB * x_start;
+    x_start += x_step;
+  }
+
+  // Create Elastic Map Edges - Each edge is composed by two parts
+  Edges = (int *)malloc(numEdges * 2 * sizeof(int));
+  for (int i = 0; i < numEdges; i++) {
+    Edges[i * 2 + 0] = i;
+    Edges[i * 2 + 1] = i + 1;
+  }
+
+  // Create Elastic Map Ribs - Each ribs is composed by three parts
+  Ribs = (int *)malloc(numRibs * 3 * sizeof(int));
+  for (int i = 0; i < numRibs; i++) {
+    Ribs[i * 3 + 0] = i + 1;
+    Ribs[i * 3 + 1] = i;
+    Ribs[i * 3 + 2] = i + 2;
+  }
 }
-

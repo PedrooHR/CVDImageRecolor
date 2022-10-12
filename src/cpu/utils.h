@@ -5,17 +5,28 @@
 #include <stdlib.h>
 #include <vector>
 
+// Mathematical definitions
 #define euler 2.71828182846
 #define SIGMA 1.0
 #define MI 0.0
 
-typedef struct XYPosition {
-    float x, y;
-} XYPos;
+// Max/Min definitions
+#define Min2(x, y) x < y ? x : y
+#define Min3(x, y, z) Min2(x, Min2(y, z))
+#define Max2(x, y) x > y ? x : y
+#define Max3(x, y, z) Max2(x, Max2(y, z))
+
+// Returns the index of Matrix with 2 columns
+#define pos2(i, j) i * 2 + j
+// Returns the index of Matrix with 3 columns
+#define pos3(i, j) i * 3 + j
+// Returns the index of Matrix with N columns
+#define posN(i, j, N) i * N + j
+
+
 
 // Operações entre espaço de cores
-std::vector<float> getLabColor(unsigned int sR, unsigned int sG,
-                               unsigned int sB);
-std::vector<float> getRGBColor(float L, float a, float b);
+float *getRGBColor(float L, float a, float b);
+float *getLabColor(unsigned int sR, unsigned int sG, unsigned int sB);
 
 #endif
