@@ -11,7 +11,7 @@
 #define cimg_display 0
 #define cimg_use_jpeg
 
-#include "CImg.h"
+#include <CImg.h>
 #include "utils.h"
 #include <vector>
 
